@@ -22,7 +22,7 @@ The research demonstrates that the determinism of simple algorithms (like LCG) c
 
 3.  **Linear Congruential Generator (LCG)**
     * **Type:** Simple PRNG ($X_{n+1} = (aX_n + c) \mod m$).
-    * **Parameters:** $m=2^{32}$, $a=1664525$, $c=1013904223$ (per *Numerical Recipes*).
+    * **Parameters:** $m=2^{32}$, $a=1664525$, $c=1013904223$
     * **Role:** Demonstration of structural flaws and linear correlations.
 
 ## Methodology
