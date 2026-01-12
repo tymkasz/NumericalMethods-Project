@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 
 
 # Parameters
-total_numbers = 500000
 quantum_file = "data/anu_quantum_data.txt"
 pseudonum_file = "data/pseudo_data.txt"
 lcg_file = "data/lcg_data.txt"
@@ -43,6 +42,11 @@ lcg_data_mc = montecarlo_sim.load_normalize(lcg_file)
 q_data_mc, p_data_mc, lcg_data_mc, min_len = montecarlo_sim.check_len(q_data_mc, p_data_mc, lcg_data_mc)
 
 print(f"Analyzing for {min_len // 2} points")
+
+#   Plotting points distribution
+montecarlo_sim.plot_distribution_2d('ANU Quantum', q_data_mc)
+montecarlo_sim.plot_distribution_2d('Mersenne Twister', p_data_mc)
+montecarlo_sim.plot_distribution_2d('LCG', lcg_data_mc)
 
 #   Counting errors
 err_quantum = montecarlo_sim.monte_carlo('Quantum random', q_data_mc)

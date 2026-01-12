@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 pi = np.pi
 
@@ -76,4 +77,67 @@ def check_len(file_1, file_2, file_3):
     file_3 = file_3[:min_len]
 
     return file_1, file_2, file_3, min_len
+
+def plot_distribution_2d(name, data, output_dir='images'):
+
+    print(f"Generating 2D plot for {name}")
+
+    np_data = np.array(data)
+
+    # If data is odd, slice the last character to make data even
+    if len(np_data) % 2 != 0:
+        np_data = np_data[:-1]
+
+    # -1 automates shape, 2 dimensional vectors
+    points = np_data.reshape(-1, 2)
+
+    # Give me 0th index of all rows from points -> x
+    x = points[:, 0]
+    # Give me 1st index of all rows from points -> y
+    y = points[:, 1]
+
+    r_squared = x**2 + y**2
+
+    point_inside = r_squared <= 1
+
+    # Points inside
+    x_in, y_in = x[point_inside], y[point_inside]
+    # Points outside
+    x_out, y_out = x[~point_inside], y[~point_inside]
+
+    # Drawing
+    plt.figure(figsize=(8,8))
+    plt.scatter(x_in, y_in, color='green', s=0.5, alpha=0.5, label='Inside')
+    plt.scatter(x_out, y_out, color='red', s=0.5, alpha=0.5, label='Outside')
+
+    # Circular arc
+    theta = np.linspace(0, pi/2, 200)
+    plt.plot(np.cos(theta), np.sin(theta), 'k--', linewidth=2, alpha=0.7)
+
+    # Plot appearance
+    plt.title(f'2D points distribution: {name}\n(Number of points: {len(points)})')
+    plt.xlim(0,1)
+    plt.ylim(0,1)
+    plt.gca().set_aspect('equal', adjustable='box')
+    plt.xlabel('X')
+    plt.ylabel('Y')
+
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    safe_name = name.replace(" ", "_").lower()
+    filename = os.path.join(output_dir, f"2d_{safe_name}.png")
+
+    plt.savefig(filename, dpi=150)
+    print(f"Plot saved to {filename}")
+    
+
+
+
+
+
+
+
+
+
 
