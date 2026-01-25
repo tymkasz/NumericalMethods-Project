@@ -131,7 +131,35 @@ def plot_distribution_2d(name, data, output_dir='images'):
     plt.savefig(filename, dpi=150)
     print(f"Plot saved to {filename}")
     
+def plot_multiple_runs(results_dict, title="Comparsion of Monte Carlo simulations"):
+    """
+    Draws multiple error plots in a single figure.
+    results_dict: dictionary in the format {'Series Name': [error_list], ...}
+    """
+    plt.figure(figsize=(12, 7))
 
+    colors = ['blue', 'cyan', 'navy', 'purple', 'magenta'] # Color palette for the series
+    
+    # We iterate through the dictionary and draw each series
+    for i, (label, errors) in enumerate(results_dict.items()):
+        # We select the color cyclically (if there are more series than colors)
+        color = colors[i % len(colors)]
+        x_axis = range(1, len(errors) + 1)
+        
+        plt.plot(x_axis, errors, label=label, color=color, alpha=0.6, linewidth=0.8)
+
+    plt.title(title)
+    plt.xlabel("Number of points (tests)")
+    plt.ylabel("Absolute error of Pi estimation (log scale)")
+    plt.yscale('log')
+    plt.legend()
+    plt.grid(True, which='both', ls='-', alpha=0.3)
+
+    output_file = f"images/comparison_{title.replace(' ', '_').lower()}.png"
+    plt.savefig(output_file, dpi=150)
+    print(f"Comparison chart saved to: {output_file}")
+    # plt.show() # Optionally, if you want to see
+    plt.close()
 
 
 
